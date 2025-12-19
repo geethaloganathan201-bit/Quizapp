@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .quiz-box {
+      background: #fff;
+      width: 350px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .option {
+      background: #f1f1f1;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .option:hover {
+      background: #ddd;
+    }
+
+    .option.correct {
+      background: #9aeabc;
+    }
+
+    .option.wrong {
+      background: #ff9393;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      background: #667eea;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #5563c1;
+    }
+
+    .score {
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-box">
+  <h2 id="question">Question here</h2>
+  <div id="options"></div>
+  <button id="nextBtn">Next</button>
+</div>
+
+<script>
+  const quizData = [
+    {
+      question: "HTML stands for?",
+      options: [
+        "Hyper Text Markup Language",
+        "High Text Machine Language",
+        "Hyperlinks Text Mark Language",
+        "None of these"
+      ],
+      answer: 0
+    },
+    {
+      question: "Which language is used for styling web pages?",
+      options: ["HTML", "JQuery", "CSS", "XML"],
+      answer: 2
+    },
+    {
+      question: "Which is used for web page logic?",
+      options: ["CSS", "HTML", "Java", "JavaScript"],
+      answer: 3
+    }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  const questionEl = document.getElementById("question");
+  const optionsEl = document.getElementById("options");
+  const nextBtn = document.getElementById("nextBtn");
+
+  loadQuestion();
+
+  function loadQuestion() {
+    optionsEl.innerHTML = "";
+    let q = quizData[currentQuestion];
+    questionEl.innerText = q.question;
+
+    q.options.forEach((opt, index) => {
+      let div = document.createElement("div");
+      div.innerText = opt;
+      div.classList.add("option");
+      div.onclick = () => checkAnswer(index, div);
+      optionsEl.appendChild(div);
+    });
+  }
+
+  function checkAnswer(index, selectedOption) {
+    let correctIndex = quizData[currentQuestion].answer;
+    let options = document.querySelectorAll(".option");
+
+    options.forEach(opt => opt.onclick = null);
+
+    if (index === correctIndex) {
+      selectedOption.classList.add("correct");
+      score++;
+    } else {
+      selectedOption.classList.add("wrong");
+      options[correctIndex].classList.add("correct");
+    }
+  }
+
+  nextBtn.onclick = () => {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+      loadQuestion();
+    } else {
+      showScore();
+    }
+  };
+
+  function showScore() {
+    document.querySelector(".quiz-box").innerHTML =
+      `<div class="score">
+        🎉 Your Score <br><br>
+        ${score} / ${quizData.length}
+      </div>`;
+  }
+</script>
+
+</body>
+</html>
