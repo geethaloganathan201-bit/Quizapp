@@ -1,0 +1,21 @@
+# Quiz App (Android)
+
+This project is developed as part of my Android Development Internship.
+
+## Project Description
+A simple multiple-choice Quiz App that displays one question per screen and calculates the final score.
+
+## Features
+- Multiple-choice questions
+- One question per screen
+- Next / Submit button
+- Score calculation
+- Result screen
+
+## Technology Used
+- Android Studio
+- Java
+- XML
+
+## Status
+Project implementation in progress.
